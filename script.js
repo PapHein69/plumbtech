@@ -1,80 +1,31 @@
-// Navigation Scroll Effect
-const nav = document.querySelector('.nav');
+const nav = document.querySelector(".nav");
+const menuToggle = document.querySelector(".menu-toggle");
+const navMenu = document.querySelector(".nav-menu");
 
-window.addEventListener('scroll', () => {
-  if (window.scrollY > 50) {
-    nav.classList.add('scrolled');
-  } else {
-    nav.classList.remove('scrolled');
-  }
-});
+const updateNav = () => nav?.classList.toggle("scrolled", window.scrollY > 24);
 
-// Form Handling
-const quoteForm = document.getElementById("quote-form");
-const quoteStatus = document.getElementById("form-status");
-const messageForm = document.getElementById("message-form");
-const messageStatus = document.getElementById("message-status");
-
-const updateStatus = (element, text) => {
-  if (!element) return;
-  element.textContent = text;
+const closeMenu = () => {
+  if (!menuToggle || !navMenu) return;
+  menuToggle.setAttribute("aria-expanded", "false");
+  menuToggle.setAttribute("aria-label", "Open navigation menu");
+  navMenu.classList.remove("open");
+  nav?.classList.remove("menu-visible");
+  document.body.classList.remove("menu-open");
 };
 
-const handleFormSubmit = (event, statusElement) => {
-  event.preventDefault();
-  updateStatus(statusElement, "Thanks! We'll be in touch shortly.");
-  event.target.reset();
-};
-
-if (quoteForm) {
-  quoteForm.addEventListener("submit", (event) => handleFormSubmit(event, quoteStatus));
-}
-
-if (messageForm) {
-  messageForm.addEventListener("submit", (event) => handleFormSubmit(event, messageStatus));
-}
-
-// Smooth Scrolling for Navigation
-const links = document.querySelectorAll('.link, .btn-link');
-links.forEach(link => {
-  link.addEventListener('click', (e) => {
-    const href = link.getAttribute('href');
-    if (href && href.startsWith('#')) {
-      e.preventDefault();
-      const targetId = href.substring(1);
-      const targetSection = document.getElementById(targetId);
-      if (targetSection) {
-        targetSection.scrollIntoView({ behavior: 'smooth' });
-      }
-    }
-  });
+menuToggle?.addEventListener("click", () => {
+  const isOpen = menuToggle.getAttribute("aria-expanded") === "true";
+  menuToggle.setAttribute("aria-expanded", String(!isOpen));
+  menuToggle.setAttribute("aria-label", isOpen ? "Open navigation menu" : "Close navigation menu");
+  navMenu?.classList.toggle("open", !isOpen);
+  nav?.classList.toggle("menu-visible", !isOpen);
+  document.body.classList.toggle("menu-open", !isOpen);
 });
 
-// Hero CTA
-const heroCta = document.getElementById("hero-cta");
-if (heroCta) {
-  heroCta.addEventListener("click", () => {
-    const contactSection = document.getElementById("contact");
-    if (contactSection) {
-      contactSection.scrollIntoView({ behavior: "smooth" });
-    }
-  });
-}
+navMenu?.querySelectorAll("a").forEach((link) => link.addEventListener("click", closeMenu));
+window.addEventListener("resize", () => { if (window.innerWidth > 760) closeMenu(); });
+window.addEventListener("scroll", updateNav, { passive: true });
+updateNav();
 
-// Active Section Highlighting
-let activeSection = 'home';
-const sections = ['home', 'services', 'gallery', 'process', 'blog', 'contact'];
-
-window.addEventListener('scroll', () => {
-  const scrollPosition = window.scrollY + window.innerHeight / 2;
-
-  sections.forEach(sectionId => {
-    const section = document.getElementById(sectionId);
-    if (section) {
-      const { offsetTop, offsetHeight } = section;
-      if (scrollPosition >= offsetTop && scrollPosition < offsetTop + offsetHeight) {
-        activeSection = sectionId;
-      }
-    }
-  });
-});
+const year = document.getElementById("year");
+if (year) year.textContent = new Date().getFullYear();
