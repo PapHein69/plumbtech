@@ -165,3 +165,9 @@ footer{background:#fff;color:#394854}footer .logo,footer .footer-phone,footer na
 .news-track .news-card:not([hidden]){display:block}
 
 .trusted-client{color:var(--red)}
+
+@media(min-width:761px){
+  .site-header{grid-template-columns:auto 1fr;align-items:center;column-gap:32px}
+  .main-nav{grid-column:2;grid-row:1;display:flex;justify-content:flex-end;align-items:center;gap:clamp(20px,3vw,42px);margin-top:0}
+  .main-nav a{border-top:1px solid rgba(255,255,255,.22);padding:14px 0 0;min-height:44px;width:clamp(76px,9vw,120px);align-items:flex-start;justify-content:space-between;gap:10px;white-space:nowrap}
+}
