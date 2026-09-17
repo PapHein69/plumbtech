@@ -100,8 +100,11 @@
     let targetRotationX = 0;
     let targetRotationY = -0.46;
 
+    const { bindScrollRotation } = await import('./model-motion.js');
+    const skipCursor = bindScrollRotation(host, angle => { targetRotationY=-.46+angle; targetRotationX=0; }, () => { targetRotationY=-.46; targetRotationX=0; });
     const section = host.closest('.drilled');
     const rotateTowardPointer = (event) => {
+      if(skipCursor()) return;
       const rect = host.getBoundingClientRect();
       if (event.clientY < rect.top || event.clientY > rect.bottom) return;
       const pointerX = THREE.MathUtils.clamp((event.clientX - rect.left) / rect.width, 0, 1);
@@ -112,6 +115,7 @@
     };
 
     const returnToRest = () => {
+      if(skipCursor()) return;
       targetRotationX = 0;
       targetRotationY = -0.46;
     };

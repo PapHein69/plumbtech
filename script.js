@@ -142,54 +142,51 @@ if (!reduceMotion) {
 
 const newsTrack = document.querySelector('.news-track');
 if (newsTrack) {
+  const viewport = newsTrack.parentElement;
   const previous = document.querySelector('.press-arrows .prev');
   const next = document.querySelector('.press-arrows .next');
   const cards = [...newsTrack.querySelectorAll('.news-card')];
-  let newsIndex = 0;
-
-  const updateNews = () => {
-    const visibleCards = cards.filter((card) => !card.hidden);
-    if (!visibleCards.length) return;
-    const gap = Number.parseFloat(getComputedStyle(newsTrack).gap) || 0;
-    const cardWidth = visibleCards[0].getBoundingClientRect().width;
-    const step = cardWidth + gap;
-    const viewport = newsTrack.parentElement.getBoundingClientRect().width;
-    const contentWidth = visibleCards.length * cardWidth + Math.max(0, visibleCards.length - 1) * gap;
-    const maxIndex = Math.max(0, Math.ceil((contentWidth - viewport) / step));
-    newsIndex = Math.min(newsIndex, maxIndex);
-    newsTrack.style.transform = `translate3d(${-newsIndex * step}px,0,0)`;
-    previous.disabled = newsIndex === 0;
-    next.disabled = newsIndex === maxIndex;
+  const mobile = matchMedia('(max-width: 1024px), (hover: none)');
+  let lastY = scrollY;
+  let manualUntil = 0;
+  let pending = false;
+  const updateButtons = () => {
+    previous.disabled = viewport.scrollLeft <= 1;
+    next.disabled = viewport.scrollLeft >= viewport.scrollWidth-viewport.clientWidth-1;
   };
-
-  previous.addEventListener('click', () => {
-    newsIndex = Math.max(0, newsIndex - 1);
-    updateNews();
-  });
-  next.addEventListener('click', () => {
-    newsIndex += 1;
-    updateNews();
-  });
-  const filterServices = (tab, animate = true) => {
+  const move = direction => {
+    manualUntil = performance.now()+2500;
+    const card = cards.find(c => !c.hidden);
+    const step = card.getBoundingClientRect().width + (parseFloat(getComputedStyle(newsTrack).gap)||0);
+    viewport.scrollBy({left:direction*step,behavior:reduceMotion?'instant':'smooth'});
+  };
+  previous.addEventListener('click',()=>move(-1));
+  next.addEventListener('click',()=>move(1));
+  viewport.addEventListener('scroll',updateButtons,{passive:true});
+  viewport.addEventListener('pointerdown',()=>{manualUntil=Infinity;},{passive:true});
+  const release = () => {manualUntil=performance.now()+2500;};
+  viewport.addEventListener('pointerup',release,{passive:true});
+  viewport.addEventListener('pointercancel',release,{passive:true});
+  const filterServices = tab => {
     document.querySelector('.tabs button.active')?.classList.remove('active');
     tab.classList.add('active');
-    const category = tab.dataset.serviceFilter;
-    cards.forEach((card) => {
-      card.hidden = card.dataset.serviceCategory !== category;
-      if (!card.hidden && animate) {
-        card.animate([
-          { opacity: 0, transform: 'translateY(22px)' },
-          { opacity: 1, transform: 'translateY(0)' }
-        ], { duration: 420, easing: 'cubic-bezier(.22,.8,.2,1)' });
+    cards.forEach(card=>{card.hidden=card.dataset.serviceCategory!==tab.dataset.serviceFilter;});
+    viewport.scrollLeft=0;
+    manualUntil=performance.now()+1200;
+    requestAnimationFrame(updateButtons);
+  };
+  document.querySelectorAll('[data-service-filter]').forEach(tab=>tab.addEventListener('click',()=>filterServices(tab)));
+  addEventListener('scroll',()=>{
+    if(pending)return;
+    pending=true;
+    requestAnimationFrame(()=>{
+      const delta=scrollY-lastY;lastY=scrollY;pending=false;
+      const r=viewport.getBoundingClientRect();
+      if(mobile.matches&&!reduceMotion&&performance.now()>manualUntil&&r.top<innerHeight&&r.bottom>0){
+        viewport.scrollLeft+=delta*.35;
       }
     });
-    newsIndex = 0;
-    newsTrack.style.transform = 'translate3d(0,0,0)';
-    requestAnimationFrame(updateNews);
-  };
-  document.querySelectorAll('[data-service-filter]').forEach((tab) => {
-    tab.addEventListener('click', () => filterServices(tab));
-  });
-  addEventListener('resize', updateNews, { passive: true });
-  filterServices(document.querySelector('[data-service-filter].active'), false);
+  },{passive:true});
+  new ResizeObserver(updateButtons).observe(viewport);
+  filterServices(document.querySelector('[data-service-filter].active'));
 }

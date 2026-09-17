@@ -1,3 +1,4 @@
+import { bindScrollRotation } from './model-motion.js';
 import * as THREE from './vendor/three/three.module.js';
 import { createBathroom } from './bathroom-geometry.js?v=2';
 
@@ -44,8 +45,9 @@ try {
     }
   }
   function update() { if (frame === null) frame = requestAnimationFrame(animate); }
+  const skipCursor = bindScrollRotation(host, angle => { target.y=rest.y+angle; target.x=rest.x; update(); }, () => { Object.assign(target,rest); update(); });
   host.addEventListener('pointermove', event => {
-    if (event.pointerType === 'touch' || motionPreference.matches) return;
+    if (skipCursor() || event.pointerType === 'touch' || motionPreference.matches) return;
     const rect = host.getBoundingClientRect();
     const x = THREE.MathUtils.clamp((event.clientX-rect.left)/rect.width, 0, 1);
     const y = THREE.MathUtils.clamp((event.clientY-rect.top)/rect.height, 0, 1);
@@ -53,7 +55,7 @@ try {
     target.x = rest.x + (y-.5)*Math.PI;
     update();
   });
-  host.addEventListener('pointerleave', () => { Object.assign(target, rest); update(); });
+  host.addEventListener('pointerleave', () => { if(skipCursor()) return; Object.assign(target, rest); update(); });
   motionPreference.addEventListener('change', () => {
     if (motionPreference.matches) {
       cancelAnimationFrame(frame); frame = null;
