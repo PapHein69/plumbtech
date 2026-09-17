@@ -163,3 +163,5 @@ footer{background:#fff;color:#394854}footer .logo,footer .footer-phone,footer na
 }
 @media(max-width:480px){.press-controls{margin-left:16px;margin-right:16px;gap:6px}.press-controls .tabs{gap:4px}.press-controls .tabs button{padding:0 6px;font-size:10px}.press-arrows{gap:4px}}
 .news-track .news-card:not([hidden]){display:block}
+
+.trusted-client{color:var(--red)}
