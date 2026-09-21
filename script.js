@@ -169,6 +169,27 @@ cookie.querySelector('button').addEventListener('click', () => {
   updateScroll();
 })();
 
+// A soft cursor-following light gives the footer depth without moving controls.
+(() => {
+  const footer = document.querySelector('[data-interactive-footer]');
+  if (!footer) return;
+  const reduced = matchMedia('(prefers-reduced-motion: reduce)');
+  const finePointer = matchMedia('(hover: hover) and (pointer: fine)');
+  let x=72, y=18, targetX=x, targetY=y, frame=0;
+  const draw = () => {
+    frame=0;x+=(targetX-x)*.1;y+=(targetY-y)*.1;
+    footer.style.setProperty('--footer-x',`${x}%`);footer.style.setProperty('--footer-y',`${y}%`);
+    if(Math.abs(targetX-x)+Math.abs(targetY-y)>.08) frame=requestAnimationFrame(draw);
+  };
+  const wake=()=>{if(!frame)frame=requestAnimationFrame(draw);};
+  footer.addEventListener('pointermove',event=>{
+    if(reduced.matches||!finePointer.matches||event.pointerType==='touch')return;
+    const box=footer.getBoundingClientRect();
+    targetX=(event.clientX-box.left)/box.width*100;targetY=(event.clientY-box.top)/box.height*100;wake();
+  });
+  footer.addEventListener('pointerleave',()=>{targetX=72;targetY=18;wake();});
+})();
+
 const newsTrack = document.querySelector('.news-track');
 if (newsTrack) {
   const viewport = newsTrack.parentElement;
@@ -220,7 +241,7 @@ if (newsTrack) {
   filterServices(document.querySelector('[data-service-filter].active'));
 }
 
-// Sample the silhouette once; animate only while the pointer or dots are moving.
+// Let nearby dots behave like a softly disturbed liquid surface.
 (() => {
   const host = document.querySelector('.map-dotted');
   if (!host) return;
@@ -231,31 +252,76 @@ if (newsTrack) {
   if (!ctx) return;
   const silhouette = new Image();
   const reduced = matchMedia('(prefers-reduced-motion: reduce)');
-  let dots = [], width = 0, height = 0, frame = 0;
-  let pointer = null;
-  function draw() {
+  const mobile = matchMedia('(max-width: 760px)');
+  let dots = [], ripples = [], width = 0, height = 0, frame = 0;
+  let pointer = null, pointerVx = 0, pointerVy = 0, lastPointerMove = 0, lastRipple = 0;
+  let scrollEnergy = 0, scrollDirection = 0, lastScrollY = scrollY, scrollQueued = false, lastScrollRipple = 0;
+  const rippleLife = 2300;
+  function draw(now) {
     frame = 0;
     ctx.clearRect(0, 0, width, height);
-    let moving = false;
+    ripples = ripples.filter(ripple => now-ripple.born < rippleLife);
+    const idleFor = now-lastPointerMove;
+    const cursorEnergy = pointer && !reduced.matches ? Math.max(0,Math.min(1,1-(idleFor-70)/950)) : 0;
+    pointerVx *= .94;
+    pointerVy *= .94;
+    scrollEnergy *= .945;
+    if(scrollEnergy < .001) scrollEnergy = 0;
+    let moving = ripples.length > 0 || cursorEnergy > .001 || scrollEnergy > 0;
     for (const dot of dots) {
       const dx = pointer ? dot.x - pointer.x : 0;
       const dy = pointer ? dot.y - pointer.y : 0;
       const distance = pointer ? Math.hypot(dx, dy) : Infinity;
-      const influence = Math.max(0, 1 - distance / 70);
-      const push = reduced.matches ? 0 : influence * influence * 9;
-      const tx = distance > 0 ? dx / distance * push : 0;
-      const ty = distance > 0 ? dy / distance * push : 0;
-      dot.ox += (tx - dot.ox) * .16;
-      dot.oy += (ty - dot.oy) * .16;
-      const red = Math.min(1, influence * 2.4);
-      dot.red += (red - dot.red) * .2;
-      moving ||= Math.abs(tx-dot.ox) + Math.abs(ty-dot.oy) + Math.abs(red-dot.red) > .015;
+      const influence = Math.max(0, 1 - distance / 150);
+      const localForce = influence * influence * cursorEnergy;
+      const directionX = distance > 0 ? dx/distance : 0;
+      const directionY = distance > 0 ? dy/distance : 0;
+      let forceX = directionX * localForce * .48 + pointerVx * influence * .018;
+      let forceY = directionY * localForce * .48 + pointerVy * influence * .018;
+      const eddy = localForce * Math.sin(now*.0022+dot.phase) * .085;
+      forceX += -directionY * eddy;
+      forceY += directionX * eddy;
+      if(scrollEnergy) {
+        const flow = Math.sin(dot.y*.031+dot.x*.012+now*.005+dot.phase*.16);
+        const crossFlow = Math.cos(dot.y*.019-dot.x*.014+now*.0042);
+        forceX += flow*scrollEnergy*.043;
+        forceY += (crossFlow*.027+scrollDirection*.014)*scrollEnergy;
+      }
+      let wave = 0;
+      if (!reduced.matches) for (const ripple of ripples) {
+        const age = (now-ripple.born)/rippleLife;
+        const easedAge = 1-Math.pow(1-age,1.7);
+        const radius = easedAge * Math.hypot(width,height) * .92;
+        const ringDistance = Math.abs(Math.hypot(dot.x-ripple.x,dot.y-ripple.y)-radius);
+        const band = Math.exp(-(ringDistance*ringDistance)/(2*42*42)) * Math.sin(Math.PI*age) * ripple.strength;
+        if (band < .002) continue;
+        const rdx = dot.x-ripple.x, rdy = dot.y-ripple.y;
+        const rlen = Math.hypot(rdx,rdy) || 1;
+        forceX += rdx/rlen * band * .12;
+        forceY += rdy/rlen * band * .12;
+        wave = Math.max(wave,band);
+      }
+      dot.vx += forceX-dot.ox*.014;
+      dot.vy += forceY-dot.oy*.014;
+      dot.vx *= .925;
+      dot.vy *= .925;
+      dot.ox += dot.vx;
+      dot.oy += dot.vy;
+      const red = Math.min(1, localForce*1.65 + wave*.2);
+      const alpha = 1-wave*.16;
+      const scale = 1+localForce*.2+wave*.1;
+      dot.red += (red-dot.red)*.09;
+      dot.alpha += (alpha-dot.alpha)*.07;
+      dot.scale += (scale-dot.scale)*.08;
+      moving ||= Math.abs(dot.vx)+Math.abs(dot.vy)+Math.abs(dot.ox)*.014+Math.abs(dot.oy)*.014+Math.abs(red-dot.red)+Math.abs(alpha-dot.alpha)+Math.abs(scale-dot.scale) > .008;
       const c = dot.red;
       ctx.fillStyle = `rgb(${195+(173-195)*c},${205+(30-205)*c},${211+(46-211)*c})`;
+      ctx.globalAlpha = dot.alpha;
       ctx.beginPath();
-      ctx.arc(dot.x+dot.ox, dot.y+dot.oy, width <= 360 ? 1 : 1.6, 0, Math.PI*2);
+      ctx.arc(dot.x+dot.ox, dot.y+dot.oy, (width <= 360 ? 1 : 1.6)*dot.scale, 0, Math.PI*2);
       ctx.fill();
     }
+    ctx.globalAlpha = 1;
     if (moving) frame = requestAnimationFrame(draw);
   }
   function wake() { if (!frame) frame = requestAnimationFrame(draw); }
@@ -274,23 +340,63 @@ if (newsTrack) {
     dots = [];
     for(let y=spacing/2;y<height;y+=spacing) for(let x=spacing/2;x<width;x+=spacing) {
       if(pixels[(Math.floor(y)*sample.width+Math.floor(x))*4+3]>128)
-        dots.push({x,y,ox:0,oy:0,red:0});
+        dots.push({x,y,ox:0,oy:0,vx:0,vy:0,red:0,alpha:1,scale:1,phase:Math.sin(x*12.9898+y*78.233)*Math.PI*2});
     }
+    ripples = [];
     pointer = null;
+    scrollEnergy = 0;
     wake();
   }
   area.addEventListener('pointermove', event => {
     if(event.pointerType === 'touch') return;
     const box = host.getBoundingClientRect();
-    pointer = {x:event.clientX-box.left,y:event.clientY-box.top};
+    const next = {x:event.clientX-box.left,y:event.clientY-box.top};
+    const moved = pointer ? Math.hypot(next.x-pointer.x,next.y-pointer.y) : Infinity;
+    if(pointer) {
+      pointerVx += (next.x-pointer.x-pointerVx)*.3;
+      pointerVy += (next.y-pointer.y-pointerVy)*.3;
+    }
+    pointer = next;
+    const now = performance.now();
+    lastPointerMove = now;
+    if(!reduced.matches && moved > 7 && now-lastRipple > 115) {
+      ripples.push({x:pointer.x,y:pointer.y,born:now,strength:Math.min(.8,.3+moved/70)});
+      if(ripples.length > 6) ripples.shift();
+      lastRipple = now;
+    }
     wake();
   });
-  const leave = () => {pointer=null;wake();};
+  const leave = () => {pointer=null;pointerVx=pointerVy=0;wake();};
+  const handleMobileScroll = () => {
+    scrollQueued = false;
+    const currentY = scrollY;
+    const delta = currentY-lastScrollY;
+    lastScrollY = currentY;
+    if(reduced.matches || !mobile.matches || !delta) return;
+    const box = host.getBoundingClientRect();
+    if(box.bottom < 0 || box.top > innerHeight) return;
+    const strength = Math.min(1,Math.abs(delta)/36);
+    scrollDirection = Math.sign(delta);
+    scrollEnergy = Math.min(1,Math.max(scrollEnergy,.18+strength*.72));
+    const now = performance.now();
+    if(now-lastScrollRipple > 360) {
+      ripples.push({x:width*(.5+scrollDirection*.1),y:height*.52,born:now,strength:.12+strength*.2});
+      if(ripples.length > 6) ripples.shift();
+      lastScrollRipple = now;
+    }
+    wake();
+  };
+  const queueMobileScroll = () => {
+    if(scrollQueued) return;
+    scrollQueued = true;
+    requestAnimationFrame(handleMobileScroll);
+  };
   area.addEventListener('pointerleave', leave);
   area.addEventListener('pointercancel', leave);
   window.addEventListener('blur', leave);
-  window.addEventListener('scroll', leave, {passive:true});
-  reduced.addEventListener('change', leave);
+  window.addEventListener('scroll', queueMobileScroll, {passive:true});
+  reduced.addEventListener('change', () => {scrollEnergy=0;leave();});
+  mobile.addEventListener('change', () => {scrollEnergy=0;lastScrollY=scrollY;wake();});
   silhouette.onload = () => {
     host.append(canvas);
     host.classList.add('map-dotted-interactive');
