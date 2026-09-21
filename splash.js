@@ -19,6 +19,6 @@
     if (event.target === splash) finish();
   });
   // Never leave the page blocked if an animation event is interrupted.
-  timer = setTimeout(finish, matchMedia('(prefers-reduced-motion: reduce)').matches ? 350 : 3400);
+  timer = setTimeout(finish, matchMedia('(prefers-reduced-motion: reduce)').matches ? 350 : 4000);
   addEventListener('pageshow', event => { if (event.persisted) finish(); });
 })();
