@@ -273,16 +273,16 @@ footer.contact-footer{--footer-x:72%;--footer-y:18%;position:relative;isolation:
 .splash-logo img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;filter:brightness(0) invert(1)}
 .splash-logo-base{opacity:.2}
 .splash-logo-water{position:absolute;inset:0;overflow:hidden;-webkit-mask:url("Images/logo.png") center/contain no-repeat;mask:url("Images/logo.png") center/contain no-repeat}
-.splash-logo-water:before{content:"";position:absolute;left:-15%;top:-7%;width:130%;height:114%;border-radius:48% 52% 0 0/7% 9% 0 0;background:#fff;transform:translateY(108%);transform-origin:center bottom;animation:splash-water-rise 2s cubic-bezier(.55,.05,.22,1) forwards}
-.splash-logo-water:after{content:"";position:absolute;left:38%;bottom:-8%;width:5px;height:5px;border-radius:50%;background:rgba(13,14,19,.5);box-shadow:22px 18px 0 -1px rgba(13,14,19,.38),47px -3px 0 -1px rgba(13,14,19,.44),-15px 30px 0 -1px rgba(13,14,19,.34);animation:splash-water-bubbles 1.7s .18s ease-out forwards}
+.splash-logo-water:before{content:"";position:absolute;z-index:1;left:-8%;top:100%;width:116%;height:116%;background:linear-gradient(180deg,#8fe3f1 0%,#3cb4d5 30%,#187fa6 100%);animation:splash-water-fill 2s linear forwards}
+.splash-logo-water:after{content:"";position:absolute;z-index:2;left:-10%;top:96%;width:120%;height:18px;border-radius:50%;background:#a7edf7;animation:splash-waterline-fill 2s linear forwards}
 .splash-wordmark{color:#fff;font-size:clamp(24px,2.15vw,34px);font-weight:600;line-height:1;letter-spacing:-.035em;opacity:0;transform:translateY(8px);animation:splash-wordmark-in .6s .7s ease forwards}
-@keyframes splash-water-rise{0%{transform:translateY(108%) rotate(0)}28%{transform:translateY(78%) rotate(1.8deg)}54%{transform:translateY(49%) rotate(-1.5deg)}78%{transform:translateY(23%) rotate(1deg)}100%{transform:translateY(0) rotate(0)}}
-@keyframes splash-water-bubbles{0%{opacity:0;transform:translateY(0) scale(.7)}20%{opacity:.7}100%{opacity:0;transform:translateY(-145px) scale(1.15)}}
+@keyframes splash-water-fill{to{top:-8%}}
+@keyframes splash-waterline-fill{to{top:-9%}}
 @keyframes splash-wordmark-in{to{opacity:1;transform:translateY(0)}}
 @keyframes splash-shrink{to{transform:scale(0);opacity:0}}
 @keyframes splash-wipe{from{clip-path:polygon(0 0,100% 0,100% 110%,0 100%)}to{clip-path:polygon(0 0,100% 0,100% 0,0 0);visibility:hidden;pointer-events:none}}
 @media(max-width:620px){.splash-logo{width:34vw;min-width:126px;max-width:158px}.splash-wordmark{font-size:26px}}
-@media(prefers-reduced-motion:reduce){.site-splash{animation:splash-fade .2s ease-out forwards}.splash-brand{animation:none}.splash-logo-water:before{animation:none;transform:none}.splash-logo-water:after{display:none}.splash-wordmark{animation:none;opacity:1;transform:none}@keyframes splash-fade{to{opacity:0;visibility:hidden;pointer-events:none}}}
+@media(prefers-reduced-motion:reduce){.site-splash{animation:splash-fade .2s ease-out forwards}.splash-brand{animation:none}.splash-logo-water:before{animation:none;top:-8%}.splash-logo-water:after{display:none}.splash-wordmark{animation:none;opacity:1;transform:none}@keyframes splash-fade{to{opacity:0;visibility:hidden;pointer-events:none}}}
 
 /* Layered hero movement without shifting navigation or action targets. */
 .hero{--hero-x:0px;--hero-y:0px;--hero-scroll:0px;background-position:center calc(50% + var(--hero-scroll)*.12)}
