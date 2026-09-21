@@ -190,3 +190,83 @@ if (newsTrack) {
   new ResizeObserver(updateButtons).observe(viewport);
   filterServices(document.querySelector('[data-service-filter].active'));
 }
+
+// Sample the silhouette once; animate only while the pointer or dots are moving.
+(() => {
+  const host = document.querySelector('.map-dotted');
+  if (!host) return;
+  const area = host.parentElement;
+  const canvas = document.createElement('canvas');
+  canvas.setAttribute('aria-hidden', 'true');
+  const ctx = canvas.getContext('2d');
+  if (!ctx) return;
+  const silhouette = new Image();
+  const reduced = matchMedia('(prefers-reduced-motion: reduce)');
+  let dots = [], width = 0, height = 0, frame = 0;
+  let pointer = null;
+  function draw() {
+    frame = 0;
+    ctx.clearRect(0, 0, width, height);
+    let moving = false;
+    for (const dot of dots) {
+      const dx = pointer ? dot.x - pointer.x : 0;
+      const dy = pointer ? dot.y - pointer.y : 0;
+      const distance = pointer ? Math.hypot(dx, dy) : Infinity;
+      const influence = Math.max(0, 1 - distance / 70);
+      const push = reduced.matches ? 0 : influence * influence * 9;
+      const tx = distance > 0 ? dx / distance * push : 0;
+      const ty = distance > 0 ? dy / distance * push : 0;
+      dot.ox += (tx - dot.ox) * .16;
+      dot.oy += (ty - dot.oy) * .16;
+      const red = Math.min(1, influence * 2.4);
+      dot.red += (red - dot.red) * .2;
+      moving ||= Math.abs(tx-dot.ox) + Math.abs(ty-dot.oy) + Math.abs(red-dot.red) > .015;
+      const c = dot.red;
+      ctx.fillStyle = `rgb(${195+(173-195)*c},${205+(30-205)*c},${211+(46-211)*c})`;
+      ctx.beginPath();
+      ctx.arc(dot.x+dot.ox, dot.y+dot.oy, width <= 360 ? 1 : 1.6, 0, Math.PI*2);
+      ctx.fill();
+    }
+    if (moving) frame = requestAnimationFrame(draw);
+  }
+  function wake() { if (!frame) frame = requestAnimationFrame(draw); }
+  function resize() {
+    width = host.clientWidth; height = host.clientHeight;
+    if (!width || !height) return;
+    const dpr = Math.min(devicePixelRatio || 1, 2);
+    canvas.width = Math.round(width*dpr); canvas.height = Math.round(height*dpr);
+    ctx.setTransform(dpr,0,0,dpr,0,0);
+    const sample = document.createElement('canvas');
+    sample.width = Math.ceil(width); sample.height = Math.ceil(height);
+    const sampleCtx = sample.getContext('2d', {willReadFrequently:true});
+    sampleCtx.drawImage(silhouette,0,0,sample.width,sample.height);
+    const pixels = sampleCtx.getImageData(0,0,sample.width,sample.height).data;
+    const spacing = width <= 360 ? 5 : 8;
+    dots = [];
+    for(let y=spacing/2;y<height;y+=spacing) for(let x=spacing/2;x<width;x+=spacing) {
+      if(pixels[(Math.floor(y)*sample.width+Math.floor(x))*4+3]>128)
+        dots.push({x,y,ox:0,oy:0,red:0});
+    }
+    pointer = null;
+    wake();
+  }
+  area.addEventListener('pointermove', event => {
+    if(event.pointerType === 'touch') return;
+    const box = host.getBoundingClientRect();
+    pointer = {x:event.clientX-box.left,y:event.clientY-box.top};
+    wake();
+  });
+  const leave = () => {pointer=null;wake();};
+  area.addEventListener('pointerleave', leave);
+  area.addEventListener('pointercancel', leave);
+  window.addEventListener('blur', leave);
+  window.addEventListener('scroll', leave, {passive:true});
+  reduced.addEventListener('change', leave);
+  silhouette.onload = () => {
+    host.append(canvas);
+    host.classList.add('map-dotted-interactive');
+    resize();
+    new ResizeObserver(resize).observe(host);
+  };
+  silhouette.src = 'Images/map-south-africa-transparent.png';
+})();
