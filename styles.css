@@ -242,3 +242,15 @@ footer.contact-footer{display:block;padding:0;background:#293943;color:#fff}
 .map-office-callout span,.map-office-callout strong{display:block;width:max-content;max-width:100%;background:#3a4b58;padding:2px 6px;font-size:12px;line-height:1.4}
 .map-office-callout span{font-size:11px;color:#ff8794}
 .map-office-callout strong{font-weight:500}
+
+/* Opening brand reveal: bottom-up logo fill, then an upward screen wipe. */
+.site-splash{position:fixed;inset:0;z-index:10000;display:grid;place-items:center;background:#0d0e13;touch-action:none;animation:splash-wipe 1s 2s cubic-bezier(.76,0,.24,1) forwards}
+.splash-logo{position:relative;width:clamp(80px,7.5vw,120px);aspect-ratio:1;animation:splash-shrink 1s 2s cubic-bezier(.76,0,.24,1) forwards}
+.splash-logo img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;filter:brightness(0) invert(1)}
+.splash-logo-base{opacity:.2}
+.splash-logo-fill{clip-path:inset(100% 0 0);animation:splash-fill 2s cubic-bezier(.76,0,.24,1) forwards}
+@keyframes splash-fill{to{clip-path:inset(0)}}
+@keyframes splash-shrink{to{transform:scale(0);opacity:0}}
+@keyframes splash-wipe{from{clip-path:polygon(0 0,100% 0,100% 110%,0 100%)}to{clip-path:polygon(0 0,100% 0,100% 0,0 0);visibility:hidden;pointer-events:none}}
+@media(max-width:620px){.splash-logo{width:21.333vw;min-width:72px}}
+@media(prefers-reduced-motion:reduce){.site-splash{animation:splash-fade .2s ease-out forwards}.splash-logo{animation:none}.splash-logo-fill{animation:none;clip-path:none}@keyframes splash-fade{to{opacity:0;visibility:hidden;pointer-events:none}}}
