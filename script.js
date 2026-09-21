@@ -270,3 +270,32 @@ if (newsTrack) {
   };
   silhouette.src = 'Images/map-south-africa-transparent.png';
 })();
+
+document.querySelectorAll('.map-service-slideshow').forEach((slideshow, index) => {
+  const slides = [...slideshow.querySelectorAll('img')];
+  const caption = slideshow.querySelector('[data-map-caption]');
+  const button = slideshow.querySelector('[data-map-pause]');
+  const reduced = matchMedia('(prefers-reduced-motion: reduce)');
+  let current = 0, timer = null, visible = false, paused = reduced.matches;
+  const sync = () => {
+    clearInterval(timer);
+    button.textContent = paused ? 'Play' : 'Pause';
+    button.setAttribute('aria-label', `${paused ? 'Play' : 'Pause'} service slideshow`);
+    if (paused || !visible || document.hidden) return;
+    timer = setInterval(() => {
+      const next = (current + 1) % slides.length;
+      if (!slides[next].complete || !slides[next].naturalWidth) return;
+      slides[current].classList.remove('is-active');
+      slides[current].setAttribute('aria-hidden', 'true');
+      current = next;
+      slides[current].classList.add('is-active');
+      slides[current].removeAttribute('aria-hidden');
+      caption.textContent = slides[current].alt;
+    }, 5200 + index * 900);
+  };
+  button.addEventListener('click', () => { paused = !paused; sync(); });
+  document.addEventListener('visibilitychange', sync);
+  reduced.addEventListener('change', () => { paused = reduced.matches; sync(); });
+  new IntersectionObserver(([entry]) => {visible = entry.isIntersecting; sync();}).observe(slideshow);
+  sync();
+});

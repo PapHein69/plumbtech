@@ -217,3 +217,28 @@ footer.contact-footer{display:block;padding:0;background:#293943;color:#fff}
 @media(max-width:620px){.map-dotted{background-size:5px 5px;background-image:radial-gradient(circle,#c3cdd3 1px,transparent 1.2px)}}
 .map-dotted.map-dotted-interactive{background:none;-webkit-mask:none;mask:none}
 .map-dotted canvas{display:block;width:100%;height:100%;pointer-events:none}
+/* Independent beacons, with a quiet expanding halo. */
+.map-visible .map-location-gauteng .location-radius{animation:map-beacon 3.4s ease-in-out infinite}
+.map-visible .map-location-durban .location-radius{animation:map-beacon 4.7s ease-in-out -1.8s infinite}
+@keyframes map-beacon{0%,100%{transform:translate(-50%,-50%) scale(.93);box-shadow:0 0 0 0 rgba(194,7,49,.32)}55%{transform:translate(-50%,-50%) scale(1.07);box-shadow:0 0 0 16px rgba(194,7,49,0)}}
+.map-service-slideshow{overflow:hidden;filter:none}
+.map-service-slideshow>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity 1s ease;filter:saturate(.8)}
+.map-service-slideshow>img.is-active{opacity:1}
+.map-slide-bar{position:absolute;z-index:2;left:0;right:0;bottom:0;display:flex;align-items:center;justify-content:space-between;gap:8px;padding:6px 10px;background:rgba(27,42,53,.88);color:white;font-size:12px;line-height:1.3}
+.map-slide-bar button{min-width:44px;min-height:44px;border:0;background:transparent;color:white;font:inherit;cursor:pointer}
+.map-slide-bar button:focus-visible{outline:2px solid white;outline-offset:-2px}
+.map-art{pointer-events:none}.map-silhouette{pointer-events:auto}
+@media(prefers-reduced-motion:reduce){.map-visible .location-radius{animation:none}.map-service-slideshow>img{transition:none}}
+
+.map-silhouette .map-gauteng-slideshow{left:27%;right:auto;top:calc(-3% - 40px);bottom:auto;width:calc(44% + 30px);height:calc(29% + 40px);z-index:2;pointer-events:auto}
+.map-gauteng-slideshow .map-slide-bar{padding:2px 6px;font-size:11px;gap:4px}
+.map-gauteng-slideshow .map-slide-bar button{flex-shrink:0}
+.map-wrap.map-visible .map-art .map-service-slideshow>img{opacity:0;transform:none;object-fit:cover;transition:opacity 1s ease}
+.map-wrap.map-visible .map-art .map-service-slideshow>img.is-active{opacity:1}
+@media(prefers-reduced-motion:reduce){.map-wrap.map-visible .map-art .map-service-slideshow>img{transition:none}}
+
+/* The leader ends at the Gauteng marker and keeps the office label at the map edge. */
+.map-office-callout{position:absolute;z-index:3;left:0;top:33%;width:69%;border-top:1px solid rgba(255,255,255,.65);padding-top:9px;pointer-events:none;color:#fff}
+.map-office-callout span,.map-office-callout strong{display:block;width:max-content;max-width:100%;background:#3a4b58;padding:2px 6px;font-size:12px;line-height:1.4}
+.map-office-callout span{font-size:11px;color:#ff8794}
+.map-office-callout strong{font-weight:500}
