@@ -130,15 +130,44 @@ cookie.querySelector('button').addEventListener('click', () => {
   cookie.animate([{ transform: 'translateY(0)' }, { transform: 'translateY(100%)' }], { duration: 350, easing: 'ease', fill: 'forwards' }).finished.then(() => cookie.remove());
 });
 
-if (!reduceMotion) {
-  const heroMan = document.querySelector('.hero-man');
-  const heroMark = document.querySelector('.hero-mark');
-  window.addEventListener('scroll', () => {
-    const y = Math.min(window.scrollY, window.innerHeight);
-    heroMan.style.transform = `translate3d(0, ${y * 0.08}px, 0)`;
-    heroMark.style.transform = `translate3d(0, ${y * 0.04}px, 0)`;
-  }, { passive: true });
-}
+// Independent translate properties preserve the existing entrance animations.
+(() => {
+  const hero = document.querySelector('.hero');
+  if (!hero) return;
+  const reduced = matchMedia('(prefers-reduced-motion: reduce)');
+  const cursor = matchMedia('(min-width: 1025px) and (hover: hover) and (pointer: fine)');
+  let x=0, y=0, targetX=0, targetY=0, scroll=0, targetScroll=0, frame=0;
+  function draw() {
+    frame=0;
+    x+=(targetX-x)*.09; y+=(targetY-y)*.09; scroll+=(targetScroll-scroll)*.1;
+    hero.style.setProperty('--hero-x', `${x}px`);
+    hero.style.setProperty('--hero-y', `${y}px`);
+    hero.style.setProperty('--hero-scroll', `${scroll}px`);
+    if(Math.abs(x-targetX)+Math.abs(y-targetY)+Math.abs(scroll-targetScroll)>.1) wake();
+  }
+  function wake(){if(!frame) frame=requestAnimationFrame(draw);}
+  function updateScroll(){
+    const r=hero.getBoundingClientRect();
+    targetScroll=reduced.matches?0:Math.max(0,Math.min(-r.top,r.height));
+    wake();
+  }
+  const leave=()=>{targetX=targetY=0;wake();};
+  hero.addEventListener('pointermove',event=>{
+    if(reduced.matches||!cursor.matches||event.pointerType==='touch')return;
+    const r=hero.getBoundingClientRect();
+    targetX=((event.clientX-r.left)/r.width-.5)*24;
+    targetY=((event.clientY-r.top)/r.height-.5)*16;
+    wake();
+  });
+  hero.addEventListener('pointerleave',leave);
+  hero.addEventListener('pointercancel',leave);
+  addEventListener('blur',leave);
+  addEventListener('scroll',updateScroll,{passive:true});
+  addEventListener('resize',updateScroll,{passive:true});
+  cursor.addEventListener('change',leave);
+  reduced.addEventListener('change',()=>{leave();updateScroll();});
+  updateScroll();
+})();
 
 const newsTrack = document.querySelector('.news-track');
 if (newsTrack) {

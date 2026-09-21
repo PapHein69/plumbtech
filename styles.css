@@ -254,3 +254,11 @@ footer.contact-footer{display:block;padding:0;background:#293943;color:#fff}
 @keyframes splash-wipe{from{clip-path:polygon(0 0,100% 0,100% 110%,0 100%)}to{clip-path:polygon(0 0,100% 0,100% 0,0 0);visibility:hidden;pointer-events:none}}
 @media(max-width:620px){.splash-logo{width:21.333vw;min-width:72px}}
 @media(prefers-reduced-motion:reduce){.site-splash{animation:splash-fade .2s ease-out forwards}.splash-logo{animation:none}.splash-logo-fill{animation:none;clip-path:none}@keyframes splash-fade{to{opacity:0;visibility:hidden;pointer-events:none}}}
+
+/* Layered hero movement without shifting navigation or action targets. */
+.hero{--hero-x:0px;--hero-y:0px;--hero-scroll:0px;background-position:center calc(50% + var(--hero-scroll)*.12)}
+.hero-man{translate:var(--hero-x) calc(var(--hero-y) + var(--hero-scroll)*.14)}
+.hero-mark{translate:calc(var(--hero-x)*-.65) calc(var(--hero-y)*-.5 + var(--hero-scroll)*.07)}
+.hero::after{translate:calc(var(--hero-x)*-.9) calc(var(--hero-y)*-.7 + var(--hero-scroll)*.04)}
+@media(max-width:1024px){.hero-man{translate:0 calc(var(--hero-scroll)*.07)}.hero-mark{translate:0 calc(var(--hero-scroll)*.035)}}
+@media(prefers-reduced-motion:reduce){.hero{background-position:center}.hero-man,.hero-mark,.hero::after{translate:none}}
