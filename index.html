@@ -1,131 +1,222 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Plumbtech Builders provides reliable plumbing, ceiling, drywall and painting services for homes and businesses.">
-  <title>PlumbTech Builders | Plumbing, Ceilings &amp; Finishing</title><link rel="stylesheet" href="styles.css?v=71">
-</head>
-<body>
-  <div class="site-splash" aria-hidden="true"><div class="splash-brand"><div class="splash-logo"><img class="splash-logo-base" src="Images/logo.png" alt="" width="500" height="500" fetchpriority="high"><span class="splash-logo-water"><svg class="splash-water-stage" viewBox="-20 0 240 220" preserveAspectRatio="none" aria-hidden="true"><path fill="#fff" d="M-20 20 C10 2 30 2 60 20 S110 38 140 20 S190 2 220 20 L220 220 L-20 220 Z"><animate attributeName="d" dur="1.7s" repeatCount="indefinite" values="M-20 20 C10 2 30 2 60 20 S110 38 140 20 S190 2 220 20 L220 220 L-20 220 Z;M-20 20 C10 38 30 38 60 20 S110 2 140 20 S190 38 220 20 L220 220 L-20 220 Z;M-20 20 C10 2 30 2 60 20 S110 38 140 20 S190 2 220 20 L220 220 L-20 220 Z"></animate></path></svg></span></div><span class="splash-wordmark"><span class="splash-wordmark-plumb">Plumb</span><span class="splash-wordmark-tech">Tech</span></span></div></div>
-  <script src="splash.js?v=2" defer></script>
-  <noscript><style>.site-splash{display:none}</style></noscript>
-  <header class="site-header" data-header>
-    <a class="logo" href="#top" aria-label="PlumbTech home"><img class="brand-logo" src="Images/logo.png" alt="PlumbTech Builders" width="58" height="58"><span>PlumbTech</span></a>
-    <button class="menu-toggle" aria-label="Open navigation" aria-expanded="false"><span></span><span></span></button>
-    <nav class="main-nav" aria-label="Main navigation"><a href="#about">Company <span>⌄</span></a><a href="#press">Services <span>⌄</span></a><a href="#responsibility">Our Work</a><a href="#about">About</a><a href="#contacts">Contacts</a></nav>
-  </header>
-  <main id="top">
-    <section class="hero">
-      <img class="hero-mark" src="Images/naftagaz/hero-mark-pt.svg?v=3" alt="" aria-hidden="true"><div class="hero-copy reveal"><span class="hero-eyebrow">PlumbTech Builders · Gauteng</span><h1>Skilled work.<br>Clean finish.</h1><p>Plumbing, ceilings and painting for homes and businesses—planned clearly, completed carefully.</p><div class="hero-actions"><a class="hero-primary" href="#contacts">Request a quote <span>↗</span></a><a class="hero-secondary" href="#responsibility">See completed work</a></div></div>
-      <div class="hero-portrait">
-        <img class="hero-blob" src="Images/hero-blob.svg?v=4" alt="" aria-hidden="true">
-        <img class="hero-man" src="Images/naftagaz/hero-plumber.png?v=1" alt="PlumbTech plumber in protective workwear">
-      </div>
-      <div class="service-links" id="services">
-        <a class="service-card" href="#press"><span>Plumbing<small>01</small></span><img src="Images/bathroom-after.jpg" alt="Completed bathroom plumbing"><i>→</i></a>
-        <a class="service-card" href="#press"><span>Ceilings<small>02</small></span><img src="Images/ceiling-after.jpg" alt="Professionally finished ceiling"><i>→</i></a>
-        <a class="service-card" href="#press"><span>Painting<small>03</small></span><img src="Images/background.png" alt="Property painting and finishing"><i>→</i></a>
-      </div><a class="scroll-down" href="#about" aria-label="Scroll to about PlumbTech">↓</a>
-    </section>
-    <section class="about-plumbtech" id="about">
-      <div class="section-kicker red">About PlumbTech</div>
-      <div class="about-layout">
-        <div class="about-intro reveal"><h2>A practical team that<br>respects your property.</h2><p>We combine hands-on experience with thoughtful service. That means sensible recommendations, careful work and a finish we are proud to hand over.</p><a href="#contacts">● &nbsp; Start your project</a>
+  <head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=AW-18541544754"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
 
-</div>
-        <div class="about-values reveal">
-          <article><span>01</span><div><h3>Clear communication</h3><p>We explain the work in plain language and keep you updated.</p></div></article>
-          <article><span>02</span><div><h3>Attention to detail</h3><p>We prepare properly and check the small things before leaving.</p></div></article>
-          <article><span>03</span><div><h3>Versatile service</h3><p>One team can handle plumbing, ceilings and final finishes.</p></div></article>
+      gtag('config', 'AW-18541544754');
+    </script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PlumbTechBuilders - Professional Plumbing Services</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="hero-background"></div>
+      <nav class="container nav">
+        <div class="logo">Plumbtech builders</div>
+        <div class="nav-actions">
+          <a class="link" href="#home">Home</a>
+          <a class="link" href="#services">Services</a>
+          <a class="link" href="#gallery">Gallery</a>
+          <a class="link" href="#process">Process</a>
+          <a class="link" href="#blog">Blog</a>
+          <a class="link" href="#contact">Contact</a>
+        </div>
+      </nav>
+      <div class="container logo-hero-section" id="home">
+        <div class="hero-content">
+          <p class="hero-welcome">Welcome to PlumbTech Builders</p>
+          <h1>Professional Plumbing, Ceilings & Drywall Practitioners</h1>
+          <p class="hero-description">
+            Expert services in plumbing installations and repairs, ceiling installations, and drywall solutions. Our licensed professionals deliver quality workmanship and reliable results for residential and commercial properties.
+          </p>
+          <div class="hero-actions">
+            <button class="btn primary" id="hero-cta">Get in Touch</button>
+          </div>
         </div>
       </div>
-      <div class="partners service-promises" aria-label="Service commitments">
-        <div class="partner"><span>Residential<small>Repairs &amp; installations</small></span></div>
-        <div class="partner"><span>Commercial<small>Property maintenance</small></span></div>
-        <div class="partner"><span>Clear quotations<small>Know the scope and cost</small></span></div>
-        <div class="partner"><span>Quality workmanship<small>Careful, lasting results</small></span></div>
-        <div class="partner"><span>B-BBEE Level 2<small>Contributor</small></span></div>
+    </header>
+
+    <section class="section" id="services">
+      <div class="container">
+        <div class="section-header">
+          <h2>Our Services</h2>
+          <p class="section-subtitle">Comprehensive plumbing, ceiling, and finishing solutions for residential and commercial properties</p>
+        </div>
+        <div class="grid services-grid">
+          <article class="service-card">
+            <div class="service-icon">🚿</div>
+            <h3>Drain Cleaning</h3>
+            <p>Safe, effective clearing for clogged sinks, toilets, showers, and main sewer lines.</p>
+            <button class="btn-link">Learn More →</button>
+          </article>
+          <article class="service-card">
+            <div class="service-icon">🏗️</div>
+            <h3>Installation Services</h3>
+            <p>Expert installation of faucets, water heaters, fixtures, and complete plumbing system upgrades.</p>
+            <button class="btn-link">Learn More →</button>
+          </article>
+          <article class="service-card">
+            <div class="service-icon">🌡️</div>
+            <h3>Geyser Installations</h3>
+            <p>Professional geyser installation, replacement, and upgrades for reliable hot water in your home or business.</p>
+            <button class="btn-link">Learn More →</button>
+          </article>
+          <article class="service-card">
+            <div class="service-icon">🏠</div>
+            <h3>Ceiling Installations & Repairs</h3>
+            <p>New ceiling installations and professional repairs for sagging, cracked, or water-damaged ceilings in homes and offices.</p>
+            <button class="btn-link">Learn More →</button>
+          </article>
+          <article class="service-card">
+            <div class="service-icon">✨</div>
+            <h3>Cornice Upgrades</h3>
+            <p>Beautiful cornice installation and upgrades to give your rooms a polished, modern finish.</p>
+            <button class="btn-link">Learn More →</button>
+          </article>
+          <article class="service-card">
+            <div class="service-icon">🎨</div>
+            <h3>Re-painting</h3>
+            <p>Interior and exterior re-painting services to refresh and protect your property with quality finishes.</p>
+            <button class="btn-link">Learn More →</button>
+          </article>
+        </div>
       </div>
-    </section>
-    <section class="responsibility" id="responsibility">
-      <div class="responsibility-copy reveal"><div class="section-kicker light">Our Work <span data-comparison-count>1 / 2</span></div><div class="slider-arrows"><button data-comparison-prev aria-label="Previous project comparison">←</button><button data-comparison-next aria-label="Next project comparison">→</button></div><h2>Simple from<br>first call.</h2><p>Tell us what you need and arrange a convenient assessment. We explain the approach, confirm the scope and cost, complete the work carefully, and finish with a final quality check and a tidy work area.</p><a href="#contacts">● &nbsp; Start your project</a></div><div class="responsibility-image reveal before-after" data-before-after style="--reveal:50%"><img class="comparison-before" src="Images/bathroom-before.jpg" alt="Bathroom before renovation"><div class="comparison-after"><img src="Images/bathroom-after.jpg" alt="Bathroom after PlumbTech renovation"></div><span class="comparison-label before-label">Before</span><span class="comparison-label after-label">After</span><div class="comparison-handle" aria-hidden="true"><i>↔</i></div><input type="range" min="0" max="100" value="50" aria-label="Reveal bathroom before and after"></div>
-    </section>
-    <section class="press services-showcase" id="press">
-      <div class="section-kicker red">Our Services</div>
-      <div class="services-heading"><h2>One trusted team.<br>Complete solutions.</h2><p>From urgent plumbing repairs to a polished room finish, we coordinate the work carefully and keep you informed throughout the job.</p></div>
-      <div class="press-controls"><div class="tabs" role="tablist"><button class="active" data-service-filter="plumbing">Plumbing</button><button data-service-filter="ceiling">Ceiling</button><button data-service-filter="painting">Painting</button></div><div class="press-arrows"><button class="prev" aria-label="Previous service">‹</button><button class="next" aria-label="Next service">›</button></div></div>
-      <div class="news-viewport" id="services-list"><div class="news-track">
-        <a class="news-card service-slide" data-service-category="plumbing" href="#contacts"><img src="Images/bathroom-after.jpg" alt="Modern bathroom plumbing"><span class="service-number">01</span><h3>Plumbing repairs</h3><p>Careful fault finding and lasting repairs for leaks, blocked drains, taps, toilets and pipework.</p><small>Leak detection · Drain cleaning · Fixture repairs</small></a>
-        <a class="news-card service-slide" data-service-category="plumbing" href="#contacts"><img src="Images/bathroom-before.jpg" alt="Bathroom plumbing installation"><span class="service-number">02</span><h3>Plumbing installations</h3><p>Professional installation of new plumbing, sanitaryware and water connections.</p><small>Bathrooms · Kitchens · System upgrades</small></a>
-        <a class="news-card service-slide" data-service-category="plumbing" href="#contacts"><img src="Images/solar-geyser.png" alt="Solar geyser installation"><span class="service-number">03</span><h3>Geyser installations</h3><p>Reliable geyser replacements and new installations for dependable hot water.</p><small>New installations · Replacements · Connection checks</small></a>
-        <a class="news-card service-slide" data-service-category="ceiling" href="#contacts"><img src="Images/ceiling-after.jpg" alt="Finished ceiling and drywall"><span class="service-number">04</span><h3>Ceilings &amp; drywall</h3><p>Neat ceiling and drywall work for new rooms, repairs and property improvements.</p><small>Installation · Water-damage repairs · Partitioning</small></a>
-        <a class="news-card service-slide" data-service-category="ceiling" href="#contacts"><img src="Images/ceiling-before.jpg" alt="Cornice and ceiling preparation"><span class="service-number">05</span><h3>Cornices</h3><p>Precise cornice installation that gives every room a clean, complete finish.</p><small>New installations · Replacement · Finishing</small></a>
-        <a class="news-card service-slide" data-service-category="painting" href="#contacts"><img src="Images/background.png" alt="Interior and exterior painting"><span class="service-number">06</span><h3>Painting</h3><p>Interior and exterior repainting with thorough preparation and crisp finishes.</p><small>Surface preparation · Interior · Exterior</small></a>
-      </div></div>
-      <section class="trusted-clients" aria-labelledby="trusted-clients-title"><div class="trusted-clients-row"><h2 id="trusted-clients-title">Trusted clients</h2><div class="trusted-client">Standard Bank</div><div class="trusted-client">SX Works</div></div></section>
-    </section>
-    <section class="drilled testimonials" id="drilling" aria-labelledby="testimonials-title">
-      <div class="section-kicker red">Testimonials</div>
-      <div class="testimonials-heading"><h2 id="testimonials-title">From the people<br>we work with.</h2><p>Customer stories and feedback.</p></div>
-      <div class="testimonials-layout">
-        <div class="testimonial-column"><article class="testimonial-card"><span class="testimonial-category">Blocked drain</span><span class="testimonial-quote" aria-hidden="true">“</span><p class="testimonial-placeholder">By Sunday morning the kitchen sink had stopped draining completely. I called PlumbTech expecting to wait until Monday, but they fitted me in, found the blockage outside and had everything running again before lunch. No mess left behind.</p><div class="testimonial-person"><strong>Luvuyo Skhosana</strong></div></article><article class="testimonial-card"><span class="testimonial-category">Drywall room partitioning</span><span class="testimonial-quote" aria-hidden="true">“</span><p class="testimonial-placeholder">I had a rough idea for two offices and a small storeroom. They measured the space, suggested a layout that made better use of the light, and the finished walls are straight and solid. Exactly what I needed.</p><div class="testimonial-person"><strong>Gert De Klerk</strong></div></article></div>
-        <div class="numbers-background" data-drill-model aria-hidden="true"><div class="model-loader">Loading illustration</div></div>
-        <div class="testimonial-column"><article class="testimonial-card"><span class="testimonial-category">Blocked toilet</span><span class="testimonial-quote" aria-hidden="true">“</span><p class="testimonial-placeholder">Honestly, I was embarrassed by the state of the bathroom when they arrived. The plumber was calm, sorted out the toilet quickly and cleaned up properly afterwards. That kindness mattered as much as the repair.</p><div class="testimonial-person"><strong>Melanie Fischer</strong></div></article><article class="testimonial-card"><span class="testimonial-category">Solar geyser installation</span><span class="testimonial-quote" aria-hidden="true">“</span><p class="testimonial-placeholder">The quotation was clear and there were no surprise costs. Installation took the day, and before leaving they showed me how the controller works and what to check if the water isn’t heating. We’ve already noticed the saving.</p><div class="testimonial-person"><strong>Justine Phillips</strong></div></article></div>
-      </div>
-    </section>
-    <section class="locations dark-section" id="company">
-      <div class="section-kicker">Our Locations</div>
-      <div class="locations-grid reveal"><div class="metric"><strong data-count="3000">0</strong><b>+</b><span>Services delivered across Gauteng</span></div><p class="location-copy">From Johannesburg and Sandton to Midrand, Centurion and Pretoria, PlumbTech Builders delivers plumbing, ceiling, drywall and painting solutions for residential and commercial properties across Gauteng.</p></div>
-      <div class="map-wrap" aria-label="Map of company locations"><div class="map-project-image map-service-slideshow" aria-label="Our services">
-<img class="is-active" src="Images/solar-geyser.png" alt="Solar geyser installation">
-<img src="Images/bathroom-after.jpg" alt="Bathroom plumbing and renovations" aria-hidden="true" loading="lazy">
-<img src="Images/ceiling-after.jpg" alt="Ceiling installation and finishing" aria-hidden="true" loading="lazy">
-<div class="map-slide-bar"><span data-map-caption>Solar geyser installation</span><button type="button" data-map-pause aria-label="Pause service slideshow">Pause</button></div>
-</div><div class="map-art"><div class="map-silhouette"><div class="map-project-image map-service-slideshow map-gauteng-slideshow" aria-label="Gauteng services">
-<img class="is-active" src="Images/bathroom-after.jpg" alt="Bathroom plumbing and renovations">
-<img src="Images/ceiling-after.jpg" alt="Ceiling installation and finishing" aria-hidden="true" loading="lazy">
-<img src="Images/solar-geyser.png" alt="Solar geyser installation" aria-hidden="true" loading="lazy">
-<div class="map-slide-bar"><span data-map-caption>Bathroom plumbing and renovations</span><button type="button" data-map-pause aria-label="Pause service slideshow">Pause</button></div>
-</div><div class="map-dotted" role="img" aria-label="Dotted South Africa map showing Gauteng and Durban"></div><div class="map-office-callout"><a class="map-office-link" href="https://www.google.com/maps/search/?api=1&amp;query=PlumbTech+Builders%2C+Waverley%2C+Pretoria" target="_blank" rel="noopener noreferrer" aria-label="Open PlumbTech Builders Head Office in Google Maps"><span class="map-office-title">Head Office <i aria-hidden="true">↗</i></span><strong>Waverley, Pretoria</strong><span class="map-office-tooltip" role="tooltip">Click to open in Maps</span></a></div><div class="map-location map-location-gauteng"><span class="location-radius" aria-hidden="true"></span><span class="location-dot" aria-hidden="true"></span><span class="location-name">Gauteng</span></div><div class="map-location map-location-durban"><span class="location-radius" aria-hidden="true"></span><span class="location-dot" aria-hidden="true"></span><span class="location-name">Durban</span></div></div></div><a class="round-link" href="#responsibility">↗ <span>Our Projects</span></a></div>
     </section>
 
-    <section class="workflow-section" id="bathroom-model" aria-labelledby="workflow-title">
-      <div class="section-kicker red">How we work</div>
-      <div class="workflow-heading"><h2 id="workflow-title">Clear steps.<br>Careful workmanship.</h2><p>From your first call to the final check, we keep you informed and treat your property with care.</p></div>
-      <div class="workflow-layout">
-        <div class="workflow-visual"><div class="bathroom-viewer" data-bathroom-viewer role="region" aria-label="Interactive bathroom reconstruction">
-        <img class="bathroom-fallback" src="Images/plumbing-system-line-drawing.png" alt="Original bathroom line drawing">
-        <p class="bathroom-status" role="status">Loading bathroom model…</p>
-      </div></div>
-        <ol class="workflow-steps">
-          <li><span aria-hidden="true">01</span><div><h3>Tell us what you need</h3><p>Share your repair or project details. We arrange a convenient assessment.</p></div></li>
-          <li><span aria-hidden="true">02</span><div><h3>Agree on the plan</h3><p>We explain the approach and confirm the scope and cost before work begins.</p></div></li>
-          <li><span aria-hidden="true">03</span><div><h3>We get to work</h3><p>Our team carries out the work carefully, keeping you updated along the way.</p></div></li>
-          <li><span aria-hidden="true">04</span><div><h3>Check every detail</h3><p>We review the finished work with you and leave the space clean and ready to use.</p></div></li>
-        </ol>
+    <section class="section gallery-section" id="gallery">
+      <div class="container">
+        <div class="section-header">
+          <h2>Project Gallery</h2>
+          <p class="section-subtitle">See our quality workmanship in action</p>
+        </div>
+        <div class="image-grid">
+          <div class="grid-item">
+            <img src="https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=400&h=400&fit=crop" alt="Plumbing work" />
+          </div>
+          <div class="grid-item">
+            <img src="https://images.unsplash.com/photo-1607400201889-565b1ee75f8e?w=400&h=400&fit=crop" alt="Ceiling installation" />
+          </div>
+          <div class="grid-item">
+            <img src="https://images.unsplash.com/photo-1621905252507-b35492cc74b4?w=400&h=400&fit=crop" alt="Drywall work" />
+          </div>
+          <div class="grid-item">
+            <img src="https://images.unsplash.com/photo-1504148455328-c376907d081c?w=400&h=400&fit=crop" alt="Bathroom plumbing" />
+          </div>
+          <div class="grid-item">
+            <img src="https://images.unsplash.com/photo-1609137144813-7d9921338f24?w=400&h=400&fit=crop" alt="Modern fixtures" />
+          </div>
+        </div>
       </div>
-      <a class="workflow-contact" href="#contacts">Start your project <span aria-hidden="true">↗</span></a>
     </section>
-  </main>
-  <footer id="contacts" class="contact-footer" data-interactive-footer>
-    <div class="footer-lead">
-      <div class="footer-status"><span aria-hidden="true"></span> Available for new projects in Gauteng</div>
-      <div class="footer-heading"><h2>Good work starts<br>with a conversation.</h2><p>Tell us what needs attention. We’ll help you plan the next step and deliver it with care.</p></div>
-    </div>
-    <div class="footer-shell">
-      <div class="footer-contact-grid" aria-label="Contact PlumbTech Builders">
-        <a class="footer-contact-card" href="tel:+27659382295"><span class="footer-card-number">01</span><span class="footer-card-copy"><small>Call the plumber</small><strong>065 938 2295</strong></span><span class="footer-card-arrow" aria-hidden="true">↗</span></a>
-        <a class="footer-contact-card" href="tel:+27832588246"><span class="footer-card-number">02</span><span class="footer-card-copy"><small>Call the office</small><strong>083 258 8246</strong></span><span class="footer-card-arrow" aria-hidden="true">↗</span></a>
-        <a class="footer-contact-card footer-contact-email" href="mailto:pblumbtechbuilder@gmail.com"><span class="footer-card-number">03</span><span class="footer-card-copy"><small>Send an email</small><strong>pblumbtechbuilder@gmail.com</strong></span><span class="footer-card-arrow" aria-hidden="true">↗</span></a>
+
+    <section class="section working-process" id="process">
+      <div class="container">
+        <div class="section-header">
+          <h2>Our Working Process</h2>
+          <p class="section-subtitle">Simple, efficient, and transparent</p>
+        </div>
+        <div class="process-steps">
+          <div class="process-step">
+            <div class="step-number">1</div>
+            <h3>Initial Consultation</h3>
+            <p>Contact us and describe your plumbing issue. We'll schedule a convenient time for inspection.</p>
+          </div>
+          <div class="process-step">
+            <div class="step-number">2</div>
+            <h3>Assessment & Quote</h3>
+            <p>Our expert technician assesses the problem and provides a transparent, upfront quote.</p>
+          </div>
+          <div class="process-step">
+            <div class="step-number">3</div>
+            <h3>Expert Repair</h3>
+            <p>We complete the work efficiently using quality materials and proven techniques.</p>
+          </div>
+          <div class="process-step">
+            <div class="step-number">4</div>
+            <h3>Quality Check</h3>
+            <p>Final inspection and testing to ensure everything works perfectly before we leave.</p>
+          </div>
+        </div>
       </div>
-      <div class="footer-base">
-        <div class="footer-identity"><a class="footer-logo" href="#top" aria-label="PlumbTech Builders home"><img class="brand-logo" src="Images/logo.png" alt="" width="58" height="58"><span><strong>PlumbTech</strong><small>Builders</small></span></a><p>Plumbing, ceilings and property finishing—planned clearly and completed carefully.</p><span class="footer-accreditation">B-BBEE Level 2 contributor</span></div>
-        <nav class="footer-links" aria-label="Footer navigation"><a href="#about">Company <span>↗</span></a><a href="#press">Services <span>↗</span></a><a href="#responsibility">Our work <span>↗</span></a><a href="#bathroom-model">How we work <span>↗</span></a></nav>
+    </section>
+
+    <section class="section alt" id="about">
+      <div class="container about">
+        <div>
+          <h2>About Plumbtech</h2>
+          <p>
+            We’re a trusted local team with over 15 years of experience delivering clean, reliable
+            plumbing solutions. Our technicians arrive on time, explain every option clearly, and
+            treat your space with respect.
+          </p>
+          <ul class="bullets">
+            <li>Upfront, honest pricing</li>
+            <li>Same-day availability</li>
+            <li>Warranty-backed workmanship</li>
+          </ul>
+        </div>
+        <div class="stats">
+          <div class="stat">
+            <h3>3,200+</h3>
+            <p>Jobs completed</p>
+          </div>
+          <div class="stat">
+            <h3>98%</h3>
+            <p>Customer satisfaction</p>
+          </div>
+          <div class="stat">
+            <h3>15</h3>
+            <p>Years in business</p>
+          </div>
+        </div>
       </div>
-      <div class="footer-signoff"><span>© 2026 PlumbTech Builders</span><span>Skilled work. Clean finish.</span><a href="#top">Back to top <span aria-hidden="true">↑</span></a></div>
-    </div>
-  </footer>
-  <div class="cookie" data-cookie><span>By continuing to browse this site you agree to our use of <u>cookies policy</u></span><button>Agree</button></div><script src="script.js?v=17"></script><script src="drill.js?v=7"></script>
-  <script type="module" src="bathroom.js?v=8"></script>
-</body>
+    </section>
+
+    <section class="section" id="contact">
+      <div class="container contact">
+        <div>
+          <h2>Contact</h2>
+          <p>Call us any time or send a message and we’ll respond within the hour.</p>
+          <div class="contact-info">
+            <p><strong>Phone:</strong> (555) 012-3456</p>
+            <p><strong>Email:</strong> hello@plumbtech.com</p>
+            <p><strong>Hours:</strong> 24/7 Emergency • Mon-Fri 8am-6pm</p>
+          </div>
+        </div>
+        <div class="contact-card">
+          <h3>Send a message</h3>
+          <form class="form" id="message-form">
+            <input type="text" name="name" placeholder="Your name" required />
+            <input type="email" name="email" placeholder="Email address" required />
+            <textarea name="message" rows="4" placeholder="How can we help?" required></textarea>
+            <button class="btn primary" type="submit">Send Message</button>
+            <small id="message-status" role="status"></small>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <footer class="site-footer">
+      <div class="container footer">
+        <p>© 2026 Plumbtech. All rights reserved.</p>
+        <div class="footer-links">
+          <a class="link" href="#services">Services</a>
+          <a class="link" href="#about">About</a>
+          <a class="link" href="#contact">Contact</a>
+        </div>
+      </div>
+    </footer>
+
+    <script src="script.js"></script>
+  </body>
 </html>
