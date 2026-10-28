@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PlumbTech Builders</title>
+  <script>
+    const path = location.pathname.replace(/\/+$/, '') || '/';
+    const routes = ['/about', '/services', '/our-work', '/contacts', '/how-we-work'];
+    if (routes.includes(path)) {
+      const params = new URLSearchParams(location.search);
+      params.set('_route', path);
+      location.replace('/?' + params.toString());
+    }
+  </script>
+</head>
+<body>
+  <p><a href="/">Go to PlumbTech Builders</a></p>
+</body>
+</html>
