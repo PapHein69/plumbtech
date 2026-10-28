@@ -1,35 +1,5 @@
 const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-// Keep section navigation on this page without adding fragments to the URL.
-document.querySelectorAll('a[href^="#"]').forEach((link) => {
-  link.addEventListener('click', (event) => {
-    if (event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
-    const target = document.getElementById(link.getAttribute('href').slice(1));
-    if (!target) return;
-    event.preventDefault();
-    target.scrollIntoView({ behavior: reduceMotion ? 'instant' : 'smooth', block: 'start' });
-    if (!target.hasAttribute('tabindex')) {
-      target.setAttribute('tabindex', '-1');
-      target.addEventListener('blur', () => target.removeAttribute('tabindex'), { once: true });
-    }
-    target.focus({ preventScroll: true });
-    if (window.location.hash) {
-      history.replaceState(history.state, '', window.location.pathname + window.location.search);
-    }
-  });
-});
-
-// Existing bookmarked section links still land at their destination.
-if (window.location.hash) {
-  const target = document.getElementById(decodeURIComponent(window.location.hash.slice(1)));
-  if (target) {
-    window.addEventListener('load', () => {
-      target.scrollIntoView({ behavior: 'instant', block: 'start' });
-      history.replaceState(history.state, '', window.location.pathname + window.location.search);
-    }, { once: true });
-  }
-}
-
 const revealObserver = new IntersectionObserver((entries) => {
   entries.forEach((entry) => {
     if (entry.isIntersecting) {
